@@ -6,17 +6,22 @@ import Dashboard from "./pages/dashboard";
 import Login from "./pages/login";
 
 import { AuthContextProvider } from './context/auth'
-import {ExpenseContextProvider} from './context/expenses'
+import { ExpenseContextProvider } from './context/expenses'
+
+import GuardRoute from './components/guardRoute'
+import Root from './components/root';
 
 const root = (
     <BrowserRouter>
         <AuthContextProvider>
             <ExpenseContextProvider>
-                <Switch>
-                    <Route path="/login" component={Login} />
-                    <Route path="/dashboard" component={Dashboard} />
-                    <Redirect from="/" to="/dashboard" />
-                </Switch>
+                <Root>
+                    <Switch>
+                        <GuardRoute type="public" path="/login" component={Login} />
+                        <GuardRoute type="private" path="/dashboard" component={Dashboard} />
+                        <Redirect from="/" to="/dashboard" />
+                    </Switch>
+                </Root>
             </ExpenseContextProvider>
         </AuthContextProvider>
     </BrowserRouter>
