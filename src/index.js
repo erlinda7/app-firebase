@@ -11,6 +11,8 @@ import { ExpenseContextProvider } from './context/expenses'
 import GuardRoute from './components/guardRoute'
 import Root from './components/root';
 
+import './style.scss'
+
 const root = (
     <BrowserRouter>
         <AuthContextProvider>
