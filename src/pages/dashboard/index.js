@@ -3,15 +3,26 @@ import moment from 'moment'
 import { ExpenseContext } from "../../context/expenses";
 import Layout from '../../components/layout';
 import styles from './style.module.scss';
+import Expense from '../expense';
 
 class Page extends React.Component {
+    state = {
+        expenseId: null
+    }
     render() {
         const {
             expenses,
         } = this.context;
+
+        const {
+            expenseId,
+        } = this.state
+
+        const expense = expenses.find(n => n.id === expenseId)
+        
         return (
             <Layout>
-                <div className={StyleSheet.contanier}>
+                <div className={styles.contanier}>
                     <table className={styles.table} cellSpacing="0">
                         <thead className={styles.tableHeader}>
                             <th>Date</th>
@@ -23,9 +34,10 @@ class Page extends React.Component {
                             {
                                 expenses.map(row => {
                                     return (
-                                        <tr 
-                                        key={row.id}
-                                        className={styles.tableRow}
+                                        <tr
+                                            key={row.id}
+                                            className={styles.tableRow}
+                                            onClick={() => this.setState({ expenseId: row.id })}
                                         >
                                             <td>{moment(row.date).format('dd mmm yyyy hh:mm a')}</td>
                                             <td>{row.type}</td>
@@ -38,6 +50,12 @@ class Page extends React.Component {
                         </tbody>
                     </table>
                 </div>
+                {expense && 
+                <Expense
+                    expense={expense}
+                    onClose={()=>this.setState({expenseId:null})}
+                />
+                }
             </Layout>
         )
     }
